@@ -1,24 +1,22 @@
-const todo=[{
-    name: 'assignments' ,
-    dueDate: '2025-12-22'}];
+const todo=[];
 
 outputTodo();
 function outputTodo(){
     let todoHTML = '';
+
     for (let i = 0; i < todo.length; i++) {
         const elementObject = todo[i];
         const name = elementObject.name;
         const dueDate = elementObject.dueDate;
+        
         const html = `<p>
             ${name} ${dueDate}
-            <button onclick="todo.splice(${i},1);
-            outputTodo();">
+            <button onclick="deleteTodo(${i})";>
                 Delete
             </button>
         </p>`;
         todoHTML += html;
     }
-    console.log(todoHTML);
 
     document.querySelector('.todoList').innerHTML = todoHTML;
 }
@@ -30,10 +28,20 @@ function addTodo(){
     const name = inputTodoName.value;
     const dueDate = inputTodoDate.value;
 
-    todo.push({name: name, dueDate: dueDate});  
-    console.log(todo);
+    if (name === '' || dueDate === '') {
+        alert('Both Task Name and Due Date are required!');
+        return;
+    }
+
+    todo.push({name: name, dueDate: dueDate}); 
+
     inputTodoName.value = '';
     inputTodoDate.value = '';  
 
+    outputTodo();
+}
+
+function deleteTodo(index) {
+    todo.splice(index, 1);
     outputTodo();
 }
